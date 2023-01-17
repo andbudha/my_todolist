@@ -39,6 +39,19 @@ export const Todolist = (props: TodolistPropsType) => {
         }
     }
 
+    //task filtering func
+    const onAllClickTaskFilteringHandler = () => {
+      props.filterTasks('all');
+    }
+
+    const onActiveClickTaskFilteringHandler = () => {
+        props.filterTasks('active');
+    }
+
+    const onCompletedClickTaskFilteringHandler = () => {
+        props.filterTasks('completed');
+    }
+
     return (
         <div>
             <div>
@@ -58,8 +71,8 @@ export const Todolist = (props: TodolistPropsType) => {
                     }
 
                     return(
-                        <ul>
-                            <li key={list.id}>
+                        <ul key={list.id}>
+                            <li>
                                 <button onClick={taskRemoveOnClickHandler}>x</button>
                                 <span>{list.title}</span>
                                 <input type="checkbox" checked={list.isDone}/>
@@ -69,9 +82,9 @@ export const Todolist = (props: TodolistPropsType) => {
                     );
                 })}
                 <div>
-                    <button onClick={()=>props.filterTasks('all')}>All</button>
-                    <button onClick={()=>props.filterTasks('active')}>Active</button>
-                    <button onClick={()=>props.filterTasks('completed')}>Completed</button>
+                    <button onClick={onAllClickTaskFilteringHandler}>All</button>
+                    <button onClick={onActiveClickTaskFilteringHandler}>Active</button>
+                    <button onClick={onCompletedClickTaskFilteringHandler}>Completed</button>
                 </div>
             </div>
         </div>
