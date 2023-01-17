@@ -25,6 +25,12 @@ function App() {
         setTasks(tasks.filter(task=>task.id !== taskID));
     }
 
+    const addTask = (inputValue: string) => {
+        const newTask = { id: v1(), title: inputValue, isDone: false }
+        setTasks([newTask,...tasks]);
+
+    }
+
     //task filter conditioning
     let filteredTasks = tasks;
 
@@ -47,6 +53,7 @@ function App() {
                 tasks={filteredTasks}
                 removeTask={removeTask}
                 filterTasks={filterTasks}
+                addTask={addTask}
             />
         </div>
     );
