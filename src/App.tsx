@@ -46,6 +46,12 @@ function App() {
     const filterTasks = (buttonName: TaskFilterType) => {
         setFilter(buttonName);
     }
+
+    //checkbox ticking func
+    const changeTaskStatus = (isDone: boolean, taskID: string) => {
+        setTasks(tasks.map(task => task.id === taskID ? {...task, isDone} : task))
+    }
+
     return (
         <div className="App">
             <Todolist
@@ -54,6 +60,7 @@ function App() {
                 removeTask={removeTask}
                 filterTasks={filterTasks}
                 addTask={addTask}
+                changeTaskStatus={changeTaskStatus}
             />
         </div>
     );

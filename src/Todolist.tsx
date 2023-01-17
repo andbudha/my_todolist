@@ -14,11 +14,13 @@ type TodolistPropsType = {
     removeTask: (taskID: string)=> void
     filterTasks:(buttonName: TaskFilterType)=> void
     addTask:(inputValue: string)=> void
+    changeTaskStatus:(isDone: boolean, taskID: string)=> void
 }
 export const Todolist = (props: TodolistPropsType) => {
 
     //input value state
     const[inputValue, setInputValue]=useState('');
+
 
     //input value catching func
     const inputValueCatchingHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +41,7 @@ export const Todolist = (props: TodolistPropsType) => {
         }
     }
 
-    //task filtering func
+    //task filtering func.-s
     const onAllClickTaskFilteringHandler = () => {
       props.filterTasks('all');
     }
@@ -51,6 +53,7 @@ export const Todolist = (props: TodolistPropsType) => {
     const onCompletedClickTaskFilteringHandler = () => {
         props.filterTasks('completed');
     }
+
 
     return (
         <div>
@@ -70,12 +73,20 @@ export const Todolist = (props: TodolistPropsType) => {
                       props.removeTask(list.id)
                     }
 
+                    //on click check box func
+                    const taskStatusChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+                      props.changeTaskStatus(event.currentTarget.checked, list.id)
+                    }
                     return(
                         <ul key={list.id}>
                             <li>
                                 <button onClick={taskRemoveOnClickHandler}>x</button>
                                 <span>{list.title}</span>
-                                <input type="checkbox" checked={list.isDone}/>
+                                <input
+                                    type="checkbox"
+                                    checked={list.isDone}
+                                    onChange={taskStatusChangeHandler}
+                                />
                             </li>
 
                         </ul>
