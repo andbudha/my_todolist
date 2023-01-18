@@ -1,6 +1,7 @@
-import React, {ChangeEvent, KeyboardEvent,useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import {TaskFilterType} from "../../App";
 import './Todolist.css'
+import {Input} from "../Input/Input";
 
 
 type TaskType ={
@@ -20,43 +21,11 @@ type TodolistPropsType = {
 }
 export const Todolist = (props: TodolistPropsType) => {
 
-    //input value state
-    const[inputValue, setInputValue]=useState('');
 
-    //error state
-    const[error, setError]=useState<boolean>(false);
-
-
-    //input value catching func
-    const inputValueCatchingHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.currentTarget.value)
-    }
-
-    //task adding func
-    const taskAddingHandler = () => {
-        if (inputValue.trim() !== '') {
-            props.addTask(inputValue.trim());
-            setInputValue('')
-        } else {
-            setError(true)
-        }
-    }
-
-    //on enter-key adding func
-    const onKeyDownAddTaskHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        if(event.key === 'Enter' && inputValue.trim() !== ''){
-            props.addTask(event.currentTarget.value.trim());
-            setInputValue('')
-        } else {
-            setError(true)
-        }
-        setError(false);
-
-    }
 
     //task filtering func.-s
     const onAllClickTaskFilteringHandler = () => {
-      props.filterTasks('all');
+        props.filterTasks('all');
     }
 
     const onActiveClickTaskFilteringHandler = () => {
@@ -67,30 +36,27 @@ export const Todolist = (props: TodolistPropsType) => {
         props.filterTasks('completed');
     }
 
+    //task adding intermediate func
+    const getInputValue = (inputValue: string) => {
+        props.addTask(inputValue);
+    }
 
     return (
         <div>
             <div>
                 <h3>{props.title}</h3>
-                <div>
-                    <input
-                        className={error ? 'error' : ''}
-                        value={inputValue}
-                        onChange={inputValueCatchingHandler}
-                        onKeyDown={onKeyDownAddTaskHandler}
-                    />
-                    <button onClick={taskAddingHandler}>+</button>
-                    {error ? <div className='error-message'>Task is required!</div> : ''}
-                </div>
+
+                    <Input getInputValue={getInputValue}/>
+
                 {props.tasks.map(list=>{
 
                     const taskRemoveOnClickHandler = () => {
-                      props.removeTask(list.id)
+                        props.removeTask(list.id)
                     }
 
                     //on click check box func
                     const taskStatusChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-                      props.changeTaskStatus(event.currentTarget.checked, list.id)
+                        props.changeTaskStatus(event.currentTarget.checked, list.id)
                     }
                     return(
                         <ul key={list.id}>
