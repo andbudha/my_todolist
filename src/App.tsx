@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from "./components/Todolist/Todolist";
 import {v1} from "uuid";
+import {Input} from "./components/Input/Input";
 
 
 export type TaskFilterType = 'all' | 'active' | 'completed';
@@ -45,8 +46,7 @@ function App() {
 
     //task adding func
     const addTask = (todolistID: string, inputValue: string) => {
-        const newID = v1();
-        const newTask: TaskType =  {id: newID, title: inputValue, isDone: true}
+        const newTask: TaskType =  {id: v1(), title: inputValue, isDone: false}
         setTasks({...tasks, [todolistID]:[newTask, ...tasks[todolistID]]})
     }
 
@@ -60,8 +60,16 @@ function App() {
         setTasks({...tasks, [todolistID]:[...tasks[todolistID].map(task=>task.id === taskID ? {...task, isDone} : task)]})
     }
 
+    //new-list adding function
+    const addNewListHandler = (inputValue: string) => {
+        const newID = v1();
+        const newList: ToDoListType = {id: newID, title: inputValue, filter: 'all'}
+        setToDoList([...toDoList, newList]);
+        setTasks({...tasks,[newID]:[]})
+    }
     return (
         <div className="App">
+            <Input getInputValue={addNewListHandler}/>
             {toDoList.map(list=>{
                 //task filter conditioning
                 let filteredTasks = tasks[list.id];
