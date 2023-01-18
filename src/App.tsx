@@ -56,8 +56,8 @@ function App() {
     }
 
     //checkbox ticking func
-    const changeTaskStatus = (isDone: boolean, taskID: string) => {
-
+    const changeTaskStatus = (todolistID: string, isDone: boolean, taskID: string) => {
+        setTasks({...tasks, [todolistID]:[...tasks[todolistID].map(task=>task.id === taskID ? {...task, isDone} : task)]})
     }
 
     return (
