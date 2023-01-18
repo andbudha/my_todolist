@@ -4,18 +4,19 @@ import './Todolist.css'
 import {Input} from "../Input/Input";
 
 
-type TaskType ={
+export type TaskType ={
     id: string
     title: string
     isDone: boolean
 }
 
 type TodolistPropsType = {
+    todolistID: string
     title: string
     tasks: TaskType[]
-    removeTask: (taskID: string)=> void
+    removeTask: (todolistID: string,taskID: string)=> void
     filterTasks:(buttonName: TaskFilterType)=> void
-    addTask:(inputValue: string)=> void
+    addTask:(todolistID: string, inputValue: string)=> void
     changeTaskStatus:(isDone: boolean, taskID: string)=> void
     filter: TaskFilterType
 }
@@ -38,7 +39,7 @@ export const Todolist = (props: TodolistPropsType) => {
 
     //task adding intermediate func
     const getInputValue = (inputValue: string) => {
-        props.addTask(inputValue);
+        props.addTask(props.todolistID,inputValue);
     }
 
     return (
@@ -48,24 +49,24 @@ export const Todolist = (props: TodolistPropsType) => {
 
                     <Input getInputValue={getInputValue}/>
 
-                {props.tasks.map(list=>{
+                {props.tasks.map(taskID=>{
 
                     const taskRemoveOnClickHandler = () => {
-                        props.removeTask(list.id)
+                        props.removeTask(props.todolistID,taskID.id)
                     }
 
                     //on click check box func
                     const taskStatusChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-                        props.changeTaskStatus(event.currentTarget.checked, list.id)
+                        props.changeTaskStatus(event.currentTarget.checked, taskID.id)
                     }
                     return(
-                        <ul key={list.id}>
-                            <li className={list.isDone ? 'is-done' : ''}>
+                        <ul key={taskID.id}>
+                            <li className={taskID.isDone ? 'is-done' : ''}>
                                 <button onClick={taskRemoveOnClickHandler}>x</button>
-                                <span>{list.title}</span>
+                                <span>{taskID.title}</span>
                                 <input
                                     type="checkbox"
-                                    checked={list.isDone}
+                                    checked={taskID.isDone}
                                     onChange={taskStatusChangeHandler}
                                 />
                             </li>
