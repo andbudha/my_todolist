@@ -51,8 +51,8 @@ function App() {
     }
 
     //task filtering func
-    const filterTasks = (buttonName: TaskFilterType) => {
-
+    const filterTasks = (todolistID: string, filterButtonName: TaskFilterType) => {
+        setToDoList([...toDoList].map(list=>list.id===todolistID ? {...list, filter: filterButtonName} : list))
     }
 
     //checkbox ticking func

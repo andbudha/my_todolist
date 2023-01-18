@@ -15,7 +15,7 @@ type TodolistPropsType = {
     title: string
     tasks: TaskType[]
     removeTask: (todolistID: string,taskID: string)=> void
-    filterTasks:(buttonName: TaskFilterType)=> void
+    filterTasks:(todolistID: string, filterButtonName: TaskFilterType)=> void
     addTask:(todolistID: string, inputValue: string)=> void
     changeTaskStatus:(isDone: boolean, taskID: string)=> void
     filter: TaskFilterType
@@ -26,15 +26,15 @@ export const Todolist = (props: TodolistPropsType) => {
 
     //task filtering func.-s
     const onAllClickTaskFilteringHandler = () => {
-        props.filterTasks('all');
+        props.filterTasks(props.todolistID,'all');
     }
 
     const onActiveClickTaskFilteringHandler = () => {
-        props.filterTasks('active');
+        props.filterTasks(props.todolistID,'active');
     }
 
     const onCompletedClickTaskFilteringHandler = () => {
-        props.filterTasks('completed');
+        props.filterTasks(props.todolistID,'completed');
     }
 
     //task adding intermediate func
