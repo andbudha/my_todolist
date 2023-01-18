@@ -25,6 +25,8 @@ function App() {
 
     ])
 
+    console.log(toDoList)
+
 
     let [tasks, setTasks] = useState({
         [todolistID1] : [
@@ -67,6 +69,12 @@ function App() {
         setToDoList([...toDoList, newList]);
         setTasks({...tasks,[newID]:[]})
     }
+    
+    //remove list func
+    const removeList = (todolistID: string) => {
+        setToDoList([...toDoList.filter(list=>list.id !== todolistID)]);
+
+    }
     return (
         <div className="App">
             <Input getInputValue={addNewListHandler}/>
@@ -85,13 +93,14 @@ function App() {
                     <Todolist
                         key={list.id}
                         todolistID={list.id}
-                        title={'What to learn.'}
+                        title={list.title}
                         tasks={filteredTasks}
                         removeTask={removeTask}
                         filterTasks={filterTasks}
                         addTask={addTask}
                         changeTaskStatus={changeTaskStatus}
                         filter={list.filter}
+                        removeList={removeList}
                     />
                 );
             })}
