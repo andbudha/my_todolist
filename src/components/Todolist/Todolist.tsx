@@ -22,6 +22,7 @@ type TodolistPropsType = {
     filter: TaskFilterType
     removeList:(todolistID: string)=> void
     updateTaskTitle:(todolistID: string,taskID: string, newTitle: string)=> void
+    updateListTitle:(todolistID: string, newTitle: string)=> void
 }
 export const Todolist = (props: TodolistPropsType) => {
 
@@ -49,11 +50,16 @@ export const Todolist = (props: TodolistPropsType) => {
     const removeListHandler = () => {
       props.removeList(props.todolistID)
     }
+    
+    //list title intermediate updating func
+    const updateListTitleHandler = (newTitle: string) => {
+        props.updateListTitle(props.todolistID, newTitle);
+    }
     return (
         <div>
             <div>
                 <h3>
-                    {props.title}
+                    <TitleChanger title={props.title} callBack={updateListTitleHandler}/>
                     <button onClick={removeListHandler}>X</button>
                 </h3>
                     <Input getInputValue={getInputValue}/>
@@ -68,7 +74,7 @@ export const Todolist = (props: TodolistPropsType) => {
                     const taskStatusChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
                         props.changeTaskStatus(props.todolistID,event.currentTarget.checked, task.id)
                     }
-                    //task title updating func
+                    //task title intermediate updating func
                     const updateTaskTitleHandler = (newTitle: string) => {
                         props.updateTaskTitle(props.todolistID, task.id, newTitle);
                     }

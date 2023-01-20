@@ -25,7 +25,6 @@ function App() {
 
     ])
 
-    console.log(toDoList)
 
 
     let [tasks, setTasks] = useState({
@@ -41,7 +40,6 @@ function App() {
         ]
     });
 
-    console.log(tasks)
 
     //task removing func
     const removeTask = (todolistID: string,taskID: string) => {
@@ -82,6 +80,12 @@ function App() {
     const updateTaskTitle = (todolistID: string,taskID: string, newTitle: string) => {
         setTasks({...tasks, [todolistID]:[...tasks[todolistID].map(task=>task.id === taskID ? {...task, title: newTitle} : task)]})
     }
+
+    //list title updating func
+    const updateListTitle = (todolistID: string, newTitle: string) => {
+        setToDoList([...toDoList].map(list=>list.id === todolistID ? {...list, title: newTitle} : list))
+    }
+
     return (
         <div className="App">
             <Input getInputValue={addNewListHandler}/>
@@ -109,6 +113,7 @@ function App() {
                         filter={list.filter}
                         removeList={removeList}
                         updateTaskTitle={updateTaskTitle}
+                        updateListTitle={updateListTitle}
                     />
                 );
             })}
