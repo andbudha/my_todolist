@@ -21,6 +21,7 @@ type TodolistPropsType = {
     changeTaskStatus:(todolistID: string,isDone: boolean, taskID: string)=> void
     filter: TaskFilterType
     removeList:(todolistID: string)=> void
+    updateTaskTitle:(todolistID: string,taskID: string, newTitle: string)=> void
 }
 export const Todolist = (props: TodolistPropsType) => {
 
@@ -67,11 +68,17 @@ export const Todolist = (props: TodolistPropsType) => {
                     const taskStatusChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
                         props.changeTaskStatus(props.todolistID,event.currentTarget.checked, task.id)
                     }
+                    //task title updating func
+                    const updateTaskTitleHandler = (newTitle: string) => {
+                        props.updateTaskTitle(props.todolistID, task.id, newTitle);
+                    }
                     return(
                         <ul key={task.id}>
                             <li className={task.isDone ? 'is-done' : ''}>
                                 <button onClick={taskRemoveOnClickHandler}>x</button>
-                                <TitleChanger title={task.title}/>
+                                
+                                <TitleChanger title={task.title} callBack={updateTaskTitleHandler}/>
+                                
                                 <input
                                     type="checkbox"
                                     checked={task.isDone}

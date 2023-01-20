@@ -77,6 +77,11 @@ function App() {
         setToDoList([...toDoList.filter(list=>list.id !== todolistID)]);
         delete (tasks[todolistID]);
     }
+
+    //task title updating func
+    const updateTaskTitle = (todolistID: string,taskID: string, newTitle: string) => {
+        setTasks({...tasks, [todolistID]:[...tasks[todolistID].map(task=>task.id === taskID ? {...task, title: newTitle} : task)]})
+    }
     return (
         <div className="App">
             <Input getInputValue={addNewListHandler}/>
@@ -103,6 +108,7 @@ function App() {
                         changeTaskStatus={changeTaskStatus}
                         filter={list.filter}
                         removeList={removeList}
+                        updateTaskTitle={updateTaskTitle}
                     />
                 );
             })}
