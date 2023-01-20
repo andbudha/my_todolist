@@ -2,6 +2,7 @@ import React, {ChangeEvent} from 'react';
 import {TaskFilterType} from "../../App";
 import './Todolist.css'
 import {Input} from "../Input/Input";
+import {TitleChanger} from "../Titlechanger/TitleChanger";
 
 
 export type TaskType ={
@@ -56,24 +57,24 @@ export const Todolist = (props: TodolistPropsType) => {
                 </h3>
                     <Input getInputValue={getInputValue}/>
 
-                {props.tasks.map(taskID=>{
+                {props.tasks.map(task=>{
 
                     const taskRemoveOnClickHandler = () => {
-                        props.removeTask(props.todolistID,taskID.id)
+                        props.removeTask(props.todolistID,task.id)
                     }
 
                     //on click check box func
                     const taskStatusChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-                        props.changeTaskStatus(props.todolistID,event.currentTarget.checked, taskID.id)
+                        props.changeTaskStatus(props.todolistID,event.currentTarget.checked, task.id)
                     }
                     return(
-                        <ul key={taskID.id}>
-                            <li className={taskID.isDone ? 'is-done' : ''}>
+                        <ul key={task.id}>
+                            <li className={task.isDone ? 'is-done' : ''}>
                                 <button onClick={taskRemoveOnClickHandler}>x</button>
-                                <span>{taskID.title}</span>
+                                <TitleChanger title={task.title}/>
                                 <input
                                     type="checkbox"
-                                    checked={taskID.isDone}
+                                    checked={task.isDone}
                                     onChange={taskStatusChangeHandler}
                                 />
                             </li>
