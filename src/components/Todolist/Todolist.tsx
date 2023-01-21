@@ -61,7 +61,10 @@ export const Todolist = (props: TodolistPropsType) => {
             <div>
                 <h3>
                     <TitleChanger title={props.title} callBack={updateListTitleHandler}/>
-                    <button onClick={removeListHandler}>X</button>
+                    {/*<button onClick={removeListHandler}>X</button>*/}
+                    <IconButton aria-label="delete" onClick={removeListHandler}>
+                        <DeleteIcon />
+                    </IconButton>
                 </h3>
                     <Input getInputValue={getInputValue}/>
 
