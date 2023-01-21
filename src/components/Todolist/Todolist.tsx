@@ -5,6 +5,7 @@ import {Input} from "../Input/Input";
 import {TitleChanger} from "../Titlechanger/TitleChanger";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Button from '@mui/material/Button';
 
 export type TaskType ={
     id: string
@@ -104,6 +105,28 @@ export const Todolist = (props: TodolistPropsType) => {
                     );
                 })}
                 <div>
+                    <Button
+                        size="small"
+                        variant="contained"
+                        color="success"
+                        onClick={onAllClickTaskFilteringHandler}
+                    >All</Button>
+
+                    <Button
+                        size="small"
+                        variant="contained"
+                        color="error"
+                        onClick={onActiveClickTaskFilteringHandler}
+                    >Active</Button>
+
+                    <Button
+                        size="small"
+                        variant="contained"
+                        color="secondary"
+                        onClick={onCompletedClickTaskFilteringHandler}
+                    >Completed</Button>
+
+                    {/*
                     <button
                         onClick={onAllClickTaskFilteringHandler}
                         className={props.filter === 'all' ? 'active-filter' : ''}
@@ -116,6 +139,8 @@ export const Todolist = (props: TodolistPropsType) => {
                         onClick={onCompletedClickTaskFilteringHandler}
                         className={props.filter === 'completed' ? 'active-filter' : ''}
                     >Completed</button>
+                    */}
+
                 </div>
             </div>
         </div>

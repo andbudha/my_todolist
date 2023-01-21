@@ -55,7 +55,6 @@ export const Input = (props: InputPropsType) => {
             <Button
                 size="small"
                 variant="contained"
-                className={'btn'}
                 onClick={taskAddingHandler}
                 sx={{
                     minWidth: 39,
