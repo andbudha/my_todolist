@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import './Input.css'
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 type InputPropsType = {
     getInputValue:(inputValue: string)=> void
@@ -44,12 +45,27 @@ export const Input = (props: InputPropsType) => {
 
     return (
         <div>
+
+            <TextField
+                size="small"
+                id="outlined-basic"
+                label="Outlined"
+                variant="outlined"
+                sx={{
+                    width: '200px',
+                    maxHeight: '20px'
+                }}
+            />
+            {/*
             <input
                 className={error ? 'error' : ''}
                 value={inputValue}
                 onChange={inputValueCatchingHandler}
                 onKeyDown={onKeyDownAddTaskHandler}
             />
+            */}
+
+
             {/*<button onClick={taskAddingHandler}>+</button>*/}
 
             <Button
