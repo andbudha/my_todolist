@@ -107,21 +107,21 @@ export const Todolist = (props: TodolistPropsType) => {
                 <div>
                     <Button
                         size="small"
-                        variant="contained"
+                        variant={props.filter === 'all' ? 'outlined' : "contained"}
                         color="success"
                         onClick={onAllClickTaskFilteringHandler}
                     >All</Button>
 
                     <Button
                         size="small"
-                        variant="contained"
+                        variant={props.filter === 'active' ? 'outlined' : "contained"}
                         color="error"
                         onClick={onActiveClickTaskFilteringHandler}
                     >Active</Button>
 
                     <Button
                         size="small"
-                        variant="contained"
+                        variant={props.filter === 'completed' ? 'outlined' : "contained"}
                         color="secondary"
                         onClick={onCompletedClickTaskFilteringHandler}
                     >Completed</Button>
