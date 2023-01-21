@@ -3,7 +3,8 @@ import {TaskFilterType} from "../../App";
 import './Todolist.css'
 import {Input} from "../Input/Input";
 import {TitleChanger} from "../Titlechanger/TitleChanger";
-
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export type TaskType ={
     id: string
@@ -81,8 +82,12 @@ export const Todolist = (props: TodolistPropsType) => {
                     return(
                         <ul key={task.id}>
                             <li className={task.isDone ? 'is-done' : ''}>
-                                <button onClick={taskRemoveOnClickHandler}>x</button>
-                                
+
+                                {/*<button onClick={taskRemoveOnClickHandler}>x</button>*/}
+                                <IconButton aria-label="delete" onClick={taskRemoveOnClickHandler}>
+                                    <DeleteIcon />
+                                </IconButton>
+
                                 <TitleChanger title={task.title} callBack={updateTaskTitleHandler}/>
                                 
                                 <input
