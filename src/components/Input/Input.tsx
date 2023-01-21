@@ -49,12 +49,16 @@ export const Input = (props: InputPropsType) => {
             <TextField
                 size="small"
                 id="outlined-basic"
-                label="Outlined"
+                label={error ? <div className='error-message'>Task is required!</div> : ''}
                 variant="outlined"
                 sx={{
                     width: '200px',
-                    maxHeight: '20px'
+                    maxHeight: '20px',
+                    outline: 'red'
                 }}
+                value={inputValue}
+                onChange={inputValueCatchingHandler}
+                onKeyDown={onKeyDownAddTaskHandler}
             />
             {/*
             <input
@@ -77,7 +81,6 @@ export const Input = (props: InputPropsType) => {
                     minHeight: 39,
                 }}
             >+</Button>
-            {error ? <div className='error-message'>Task is required!</div> : ''}
         </div>
     );
 };
