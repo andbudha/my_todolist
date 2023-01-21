@@ -1,4 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import './Input.css'
+import Button from '@mui/material/Button';
 
 type InputPropsType = {
     getInputValue:(inputValue: string)=> void
@@ -48,7 +50,18 @@ export const Input = (props: InputPropsType) => {
                 onChange={inputValueCatchingHandler}
                 onKeyDown={onKeyDownAddTaskHandler}
             />
-            <button onClick={taskAddingHandler}>+</button>
+            {/*<button onClick={taskAddingHandler}>+</button>*/}
+
+            <Button
+                size="small"
+                variant="contained"
+                className={'btn'}
+                onClick={taskAddingHandler}
+                sx={{
+                    minWidth: 39,
+                    minHeight: 39,
+                }}
+            >+</Button>
             {error ? <div className='error-message'>Task is required!</div> : ''}
         </div>
     );
