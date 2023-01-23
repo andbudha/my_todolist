@@ -96,7 +96,7 @@ function App() {
             <Container maxWidth="md">
                 <Input getInputValue={addNewListHandler}/>
 
-                <Grid container gap={3} sx={{marginTop: '25px'}}>
+                <Grid container spacing={3} sx={{marginTop: '5px'}}>
                     {toDoList.map(list=>{
                         //task filter conditioning
                         let filteredTasks = tasks[list.id];
@@ -109,22 +109,24 @@ function App() {
                             filteredTasks = tasks[list.id].filter(task=>!task.isDone)
                         }
                         return(
-                            <Paper elevation={3} sx={{padding: '10px'}}>
-                                <Todolist
-                                    key={list.id}
-                                    todolistID={list.id}
-                                    title={list.title}
-                                    tasks={filteredTasks}
-                                    removeTask={removeTask}
-                                    filterTasks={filterTasks}
-                                    addTask={addTask}
-                                    changeTaskStatus={changeTaskStatus}
-                                    filter={list.filter}
-                                    removeList={removeList}
-                                    updateTaskTitle={updateTaskTitle}
-                                    updateListTitle={updateListTitle}
-                                />
-                            </Paper>
+                            <Grid item>
+                                <Paper elevation={5} sx={{padding: '10px'}}>
+                                    <Todolist
+                                        key={list.id}
+                                        todolistID={list.id}
+                                        title={list.title}
+                                        tasks={filteredTasks}
+                                        removeTask={removeTask}
+                                        filterTasks={filterTasks}
+                                        addTask={addTask}
+                                        changeTaskStatus={changeTaskStatus}
+                                        filter={list.filter}
+                                        removeList={removeList}
+                                        updateTaskTitle={updateTaskTitle}
+                                        updateListTitle={updateListTitle}
+                                    />
+                                </Paper>
+                            </Grid>
                         );
                     })}
 
