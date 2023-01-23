@@ -13,7 +13,7 @@ export const Input = (props: InputPropsType) => {
     const[inputValue, setInputValue]=useState('');
 
     //error state
-    const[error, setError]=useState<boolean>(false);
+    const[error, setError]=useState<string | null>(null);
 
 
     //input value catching func
@@ -27,7 +27,7 @@ export const Input = (props: InputPropsType) => {
             props.getInputValue(inputValue.trim());
             setInputValue('');
         } else {
-            setError(true);
+            setError('New title is required...');
         }
     }
 
@@ -38,9 +38,9 @@ export const Input = (props: InputPropsType) => {
             props.getInputValue(event.currentTarget.value.trim());
             setInputValue('')
         } else {
-            setError(true)
+            setError('New title is required...')
         }
-        setError(false);
+        setError(null);
     }
 
     return (
@@ -49,7 +49,8 @@ export const Input = (props: InputPropsType) => {
             <TextField
                 size="small"
                 id="outlined-basic"
-                label={error ? <div className='error-message'>Task is required!</div> : ''}
+                error={!!error}
+                label={error ? error : 'Enter a new title...'}
                 variant="outlined"
                 sx={{
                     width: '200px',
