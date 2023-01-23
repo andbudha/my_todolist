@@ -3,6 +3,7 @@ import './App.css';
 import {TaskType, Todolist} from "./components/Todolist/Todolist";
 import {v1} from "uuid";
 import {Input} from "./components/Input/Input";
+import ButtonAppBar from "./components/AppBar/ButtonAppBar";
 
 
 export type TaskFilterType = 'all' | 'active' | 'completed';
@@ -88,6 +89,8 @@ function App() {
 
     return (
         <div className="App">
+            <ButtonAppBar/>
+
             <Input getInputValue={addNewListHandler}/>
             {toDoList.map(list=>{
                 //task filter conditioning
