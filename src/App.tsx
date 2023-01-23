@@ -73,7 +73,7 @@ function App() {
         setToDoList([...toDoList, newList]);
         setTasks({...tasks,[newID]:[]})
     }
-    
+
     //remove list func
     const removeList = (todolistID: string) => {
         setToDoList([...toDoList.filter(list=>list.id !== todolistID)]);
@@ -96,20 +96,20 @@ function App() {
             <Container maxWidth="md">
                 <Input getInputValue={addNewListHandler}/>
 
-                <Grid container gap={3} sx={{marginTop: '25px', padding: '10px'}}>
-                    <Paper elevation={3}>
-                        {toDoList.map(list=>{
-                            //task filter conditioning
-                            let filteredTasks = tasks[list.id];
+                <Grid container gap={3} sx={{marginTop: '25px'}}>
+                    {toDoList.map(list=>{
+                        //task filter conditioning
+                        let filteredTasks = tasks[list.id];
 
-                            if(list.filter === 'completed'){
-                                filteredTasks = tasks[list.id].filter(task=>task.isDone)
-                            }
+                        if(list.filter === 'completed'){
+                            filteredTasks = tasks[list.id].filter(task=>task.isDone)
+                        }
 
-                            if(list.filter === 'active'){
-                                filteredTasks = tasks[list.id].filter(task=>!task.isDone)
-                            }
-                            return(
+                        if(list.filter === 'active'){
+                            filteredTasks = tasks[list.id].filter(task=>!task.isDone)
+                        }
+                        return(
+                            <Paper elevation={3} sx={{padding: '10px'}}>
                                 <Todolist
                                     key={list.id}
                                     todolistID={list.id}
@@ -124,9 +124,9 @@ function App() {
                                     updateTaskTitle={updateTaskTitle}
                                     updateListTitle={updateListTitle}
                                 />
-                            );
-                        })}
-                    </Paper>
+                            </Paper>
+                        );
+                    })}
 
                 </Grid>
 
