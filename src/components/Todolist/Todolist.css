@@ -1,3 +1,8 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 .active-filter {
     background-color: aqua;
@@ -6,4 +11,9 @@
 
 .is-done {
     opacity: 0.3;
+}
+
+ul {
+    list-style: none;
+    padding: 5px 0;
 }
