@@ -17,3 +17,7 @@ ul {
     list-style: none;
     padding: 5px 0;
 }
+
+ul li input{
+    margin: 0 0 0 10px;
+}
