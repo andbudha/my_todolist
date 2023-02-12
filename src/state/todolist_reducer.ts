@@ -11,13 +11,19 @@ export const todolistReducer = (state: ToDoListType[], action: ActionType) => {
             const newList =  {id: newListID, title: action.payload.newListTitle, filter: 'all'};
             return [...state, newList];
         }
+        case "CHANGE-TODOLIST-TITLE": {
+            return state.map(list=>list.id === action.payload.listID ? {...list, title: action.payload.newListTitle} : list);
+        }
         default: {
             throw new Error('I do not grasp this type!');
         }
     }
 }
 
-type ActionType = RemoveToDoListACType | AddNewToDoListACType
+type ActionType = RemoveToDoListACType
+    | AddNewToDoListACType
+    | ChangeToDoListTitleACType
+
 
 type RemoveToDoListACType = ReturnType<typeof RemoveToDoListAC>
 export const RemoveToDoListAC = (listID: string) => {
@@ -36,6 +42,18 @@ export const AddNewToDoListAC = (newListTitle: string) => {
         type: 'ADD-NEW-TODOLIST',
         payload: {
             newListTitle: newListTitle
+        }
+    }as const
+}
+
+
+type ChangeToDoListTitleACType = ReturnType<typeof ChangeToDoListTitleAC>
+export const ChangeToDoListTitleAC = (newListTitle: string, listID: string) => {
+    return{
+        type: 'CHANGE-TODOLIST-TITLE',
+        payload: {
+            newListTitle: newListTitle,
+            listID: listID
         }
     }as const
 }
