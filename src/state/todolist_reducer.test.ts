@@ -1,7 +1,13 @@
 
 import { v1 } from 'uuid'
-import {ToDoListType} from "../App";
-import {AddNewToDoListAC, ChangeToDoListTitleAC, RemoveToDoListAC, todolistReducer} from "./todolist_reducer";
+import {TaskFilterType, ToDoListType} from "../App";
+import {
+    AddNewToDoListAC,
+    ChangeToDoListFilterAC,
+    ChangeToDoListTitleAC,
+    RemoveToDoListAC,
+    todolistReducer
+} from "./todolist_reducer";
 
 test('correct todolist should be removed', () => {
     let todolistID1 = v1();
@@ -57,3 +63,21 @@ test('correct todolist should change its name', () => {
     expect(endState[1].title).toBe(newTodolistTitle)
 })
 
+
+test('correct filter of todolist should be changed', () => {
+    let todolistID1 = v1();
+    let todolistID2 = v1();
+
+    let newFilter: TaskFilterType = 'completed'
+
+    const startState: ToDoListType[]=([
+        {id: todolistID1, title: 'What to learn', filter: 'all'},
+        {id: todolistID2, title: 'What to buy', filter: 'all'}
+
+    ])
+
+    const endState = todolistReducer(startState, ChangeToDoListFilterAC(newFilter, todolistID2));
+
+    expect(endState[0].filter).toBe('all')
+    expect(endState[1].filter).toBe(newFilter)
+})
