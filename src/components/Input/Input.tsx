@@ -35,7 +35,7 @@ export const Input = (props: InputPropsType) => {
     const onKeyDownAddTaskHandler = (event: KeyboardEvent<HTMLInputElement>) => {
 
         if(event.key === 'Enter' && inputValue.trim() !== ''){
-            props.getInputValue(event.currentTarget.value.trim());
+            props.getInputValue(inputValue.trim());
             setInputValue('')
         } else {
             setError('New title is required...')
