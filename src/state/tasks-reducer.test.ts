@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {addNewTaskAC, changeTaskStatusAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
+import {addNewTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
 
 test('The correct task must be deleted', ()=>{
 
@@ -91,3 +91,32 @@ test('The targeted task must change its status', ()=>{
 
 });
 
+test('The targeted task-title must be changed', ()=>{
+
+    const todolistID1 = v1();
+
+    const todolistID2 = v1();
+
+    const startState = {
+        [todolistID1] : [
+            {id: v1(), title: "HTML&CSS", isDone: true},
+            {id: v1(), title: "JS", isDone: true},
+            {id: v1(), title: "ReactJS", isDone: false}
+        ],
+        [todolistID2]: [
+            {id: v1(), title: "HTML&CSS-2", isDone: true},
+            {id: v1(), title: "JS-2", isDone: true},
+            {id: v1(), title: "ReactJS-2", isDone: false}
+        ]
+    };
+
+    const newTitle = 'Node-JS';
+    const taskID = startState[todolistID2][2].id;
+
+
+    const resultState = tasksReducer(startState, changeTaskTitleAC(todolistID2, taskID, newTitle));
+
+    expect(resultState[todolistID2][2].title).toBe(newTitle);
+    expect(resultState[todolistID1][2].title).toBe("ReactJS");
+
+});
