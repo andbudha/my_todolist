@@ -1,4 +1,5 @@
 import {v1} from "uuid";
+import {removeTaskAC, tasksReducer} from "./tasks-reducer";
 
 test('The correct task must be deleted', ()=>{
 
@@ -18,5 +19,12 @@ test('The correct task must be deleted', ()=>{
             {id: v1(), title: "ReactJS-2", isDone: false}
         ]
     };
+
+    const taskToBeRemoved = startState[todolistID2][0].id;
+
+    const resultState = tasksReducer(startState, removeTaskAC(todolistID2, taskToBeRemoved))
+
+    expect(resultState[todolistID2].length).toBe(2);
+    expect(resultState[todolistID2][0].title).toBe("JS-2")
 
 });

@@ -4,16 +4,32 @@ type TaskStateType = {
     [key: string]: TaskType[]
 }
 
-export const tasksReducer = (state: TaskStateType, action: any) => {
+
+type TasksActionType = removeTaskACType
+export const tasksReducer = (state: TaskStateType, action: TasksActionType) => {
     switch (action.type) {
-        case 'XXX':
-            return state;
+        case "REMOVE-TASK":
+            return {...state, [action.payload.listID]
+                    :[...state[action.payload.listID].filter(task=>task.id !== action.payload.taskID)]};
         default:
             return  state;
     }
 }
 
 
+
+
+
+type removeTaskACType = ReturnType<typeof removeTaskAC>
+
+export const removeTaskAC = (listID: string, taskID: string) => {
+    return{
+        type: 'REMOVE-TASK',
+        payload: {
+            listID, taskID
+        }
+    }as const
+}
 
 
 
