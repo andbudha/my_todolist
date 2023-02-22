@@ -76,6 +76,8 @@ type changeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>
 export const changeTaskTitleAC = (listID: string, taskID: string, newTitle: string) => {
     return{
         type: 'CHANGE-TASK-TITLE',
-        payload: {listID, taskID, newTitle}
+        payload: {
+            listID, taskID, newTitle
+        }
     }as const
 }
