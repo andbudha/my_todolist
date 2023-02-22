@@ -1,16 +1,21 @@
 import {TaskType} from "../components/Todolist/Todolist";
+import {v1} from "uuid";
 
 type TaskStateType = {
     [key: string]: TaskType[]
 }
 
 
-type TasksActionType = removeTaskACType
+type TasksActionType = removeTaskACType | addNewTaskACType
 export const tasksReducer = (state: TaskStateType, action: TasksActionType) => {
     switch (action.type) {
         case "REMOVE-TASK":
             return {...state, [action.payload.listID]
-                    :[...state[action.payload.listID].filter(task=>task.id !== action.payload.taskID)]};
+                    :state[action.payload.listID]
+                    .filter(task=>task.id !== action.payload.taskID)};
+        case "ADD-NEW-TASK":
+            const newTask = {id: v1(), title: action.payload.newTaskTitle, isDone: true}
+            return {...state, [action.payload.listID]:[newTask,...state[action.payload.listID]]}
         default:
             return  state;
     }
@@ -32,27 +37,13 @@ export const removeTaskAC = (listID: string, taskID: string) => {
 }
 
 
+type addNewTaskACType = ReturnType<typeof addNewTaskAC>
 
-{/*
-
-
-import {TaskType} from "../components/Todolist/Todolist";
-
-export type TaskStateType = {
-    [key: string]: TaskType[]
+export const addNewTaskAC = (listID: string, newTaskTitle: string) => {
+    return{
+        type: 'ADD-NEW-TASK',
+        payload:{
+            listID, newTaskTitle
+        }
+    }as const
 }
-
-export type ActionsType = {
-    type: string
-}
-export const tasksReducer = (state: TaskStateType, action: ActionsType):TaskStateType => {
-    switch (action.type) {
-        case 'XXX':
-            return state;
-        default:
-            return state;
-    }
-}
-
-
-*/}
