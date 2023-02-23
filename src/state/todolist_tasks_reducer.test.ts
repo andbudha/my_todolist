@@ -23,14 +23,15 @@ test('A new array must be added along with the new todolist', ()=>{
 
 
     const newListTitle = 'New To DO List';
+    const action = AddNewToDoListAC(newListTitle);
 
-    const resultState = tasksReducer(startState, AddNewToDoListAC(newListTitle));
+    const resultState = tasksReducer(startState, action);
 
     const keys = Object.keys(resultState);
 
-    const newKey =keys[0];
+    const newKey = keys.find(key=> key !== todolistID1 && key !== todolistID2);
 
 
     expect(keys.length).toBe(3);
-    expect(resultState.hasOwnProperty(newKey)).toBe(true);
+    expect(newKey).toBe(action.payload.todolistID)
 });
