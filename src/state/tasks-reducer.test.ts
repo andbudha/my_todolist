@@ -1,6 +1,7 @@
 import {v1} from "uuid";
 import {addNewTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
 
+
 test('The correct task must be deleted', ()=>{
 
     const todolistID1 = v1();
@@ -120,3 +121,4 @@ test('The targeted task-title must be changed', ()=>{
     expect(resultState[todolistID1][2].title).toBe("ReactJS");
 
 });
+

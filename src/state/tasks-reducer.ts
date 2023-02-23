@@ -1,12 +1,18 @@
 import {TaskType} from "../components/Todolist/Todolist";
 import {v1} from "uuid";
+import {AddNewToDoListACType} from "./todolist_reducer";
+
 
 type TaskStateType = {
     [key: string]: TaskType[]
 }
 
 
-type TasksActionType = removeTaskACType | addNewTaskACType | changeTaskStatusACType | changeTaskTitleACType
+type TasksActionType = removeTaskACType
+    | addNewTaskACType
+    | changeTaskStatusACType
+    | changeTaskTitleACType
+    | AddNewToDoListACType
 export const tasksReducer = (state: TaskStateType, action: TasksActionType) => {
     switch (action.type) {
         case "REMOVE-TASK":
@@ -26,6 +32,8 @@ export const tasksReducer = (state: TaskStateType, action: TasksActionType) => {
                     :state[action.payload.listID]
                     .map(task=>task.id === action.payload.taskID ?
                         {...task, title: action.payload.newTitle} : task)}
+        case "ADD-NEW-TODOLIST":
+            return {...state, [action.payload.todolistID]:[]}
         default:
             return  state;
     }
