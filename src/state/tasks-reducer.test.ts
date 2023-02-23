@@ -1,5 +1,12 @@
 import {v1} from "uuid";
-import {addNewTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
+import {
+    addNewTaskAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    deleteToDoListAC,
+    removeTaskAC,
+    tasksReducer
+} from "./tasks-reducer";
 
 
 test('The correct task must be deleted', ()=>{
@@ -120,5 +127,37 @@ test('The targeted task-title must be changed', ()=>{
     expect(resultState[todolistID2][2].title).toBe(newTitle);
     expect(resultState[todolistID1][2].title).toBe("ReactJS");
 
+});
+
+
+test('The targeted todolist and its tasks must be deleted', ()=>{
+
+    const todolistID1 = v1();
+
+    const todolistID2 = v1();
+
+    const startState = {
+        [todolistID1] : [
+            {id: v1(), title: "HTML&CSS", isDone: true},
+            {id: v1(), title: "JS", isDone: true},
+            {id: v1(), title: "ReactJS", isDone: false}
+        ],
+        [todolistID2]: [
+            {id: v1(), title: "HTML&CSS-2", isDone: true},
+            {id: v1(), title: "JS-2", isDone: true},
+            {id: v1(), title: "ReactJS-2", isDone: false}
+        ]
+    };
+
+
+
+
+    const resultState = tasksReducer(startState, deleteToDoListAC(todolistID2));
+
+    const keys = Object.keys(resultState);
+
+
+    expect(keys.length).toBe(1);
+    expect(resultState[todolistID2]).toBeUndefined();
 });
 
