@@ -29,7 +29,7 @@ test('A new array must be added along with the new todolist', ()=>{
 
     const keys = Object.keys(resultState);
 
-    const newKey = keys.find(key=> key !== todolistID1 && key !== todolistID2);
+    const newKey = keys[2];
 
 
     expect(keys.length).toBe(3);
