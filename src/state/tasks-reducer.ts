@@ -27,7 +27,7 @@ export const tasksReducer = (state: TaskStateType, action: TasksActionType): Tas
             return {...state, [action.payload.todolistID]
                     :state[action.payload.todolistID]
                     .map(task=>task.id === action.payload.taskID ?
-                        {...task, isDone: !action.payload.taskStatus} : task)}
+                        {...task, isDone: action.payload.taskStatus} : task)}
         case "CHANGE-TASK-TITLE":
             return {...state, [action.payload.listID]
                     :state[action.payload.listID]
@@ -35,16 +35,14 @@ export const tasksReducer = (state: TaskStateType, action: TasksActionType): Tas
                         {...task, title: action.payload.newTitle} : task)}
         case "ADD-NEW-TODOLIST":
             return {...state, [action.payload.todolistID]:[]}
-        case "DELETE-TODO-LIST":
-            let stateCopy = {...state}
-            delete (stateCopy[action.payload.todolistID]);
-            return stateCopy;
+        case "REMOVE-TO-DO-LIST":
+            const stateCopy = {...state}
+            const {[action.payload.id]:[], ...rest} = stateCopy;
+            return rest;
         default:
             return  state;
     }
 }
-
-
 
 
 
@@ -98,9 +96,11 @@ export const changeTaskTitleAC = (listID: string, taskID: string, newTitle: stri
 
 type deleteToDoListACType = ReturnType<typeof deleteToDoListAC>
 
-export const deleteToDoListAC = (todolistID: string) => {
+export const deleteToDoListAC = (listID: string) => {
     return{
-        type: 'DELETE-TODO-LIST',
-        payload: {todolistID}
+        type: 'REMOVE-TO-DO-LIST',
+        payload: {
+            id: listID
+        }
     }as const
 }

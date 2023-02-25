@@ -1,12 +1,18 @@
-import React, {useState} from 'react';
+import React, {useReducer} from 'react';
 import './App.css';
-import {TaskType, Todolist} from "./components/Todolist/Todolist";
+import {Todolist} from "./components/Todolist/Todolist";
 import {v1} from "uuid";
 import {Input} from "./components/Input/Input";
 import ButtonAppBar from "./components/AppBar/ButtonAppBar";
 import Container from '@mui/material/Container';
 import {Grid} from "@mui/material";
 import Paper from '@mui/material/Paper';
+import {
+    AddNewToDoListAC,
+    ChangeToDoListFilterAC, ChangeToDoListTitleAC, RemoveToDoListAC,
+    todolistReducer
+} from "./state/todolist_reducer";
+import {addNewTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/tasks-reducer";
 
 
 export type TaskFilterType = 'all' | 'active' | 'completed';
@@ -23,15 +29,14 @@ function App() {
     let todolistID2 = v1();
 
 
-    let[toDoList, setToDoList]=useState<Array<ToDoListType>>([
+    let[toDoList, dispatchToToDoList]=useReducer(todolistReducer,[
         {id: todolistID1, title: 'What to learn', filter: 'all'},
         {id: todolistID2, title: 'What to buy', filter: 'all'}
-
-    ])
-
+    ]);
 
 
-    let [tasks, setTasks] = useState({
+
+    let [tasks, dispatchToTasks] = useReducer(tasksReducer,{
         [todolistID1] : [
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
@@ -47,55 +52,54 @@ function App() {
 
     //task removing func
     const removeTask = (todolistID: string,taskID: string) => {
-        setTasks({...tasks, [todolistID]:[...tasks[todolistID].filter(task=>task.id !== taskID)]})
+        dispatchToTasks(removeTaskAC(todolistID, taskID));
     }
 
     //task adding func
     const addTask = (todolistID: string, inputValue: string) => {
-        const newTask: TaskType =  {id: v1(), title: inputValue, isDone: false}
-        setTasks({...tasks, [todolistID]:[newTask, ...tasks[todolistID]]})
+        dispatchToTasks(addNewTaskAC(todolistID, inputValue));
     }
 
     //task filtering func
     const filterTasks = (todolistID: string, filterButtonName: TaskFilterType) => {
-        setToDoList([...toDoList].map(list=>list.id===todolistID ? {...list, filter: filterButtonName} : list))
+        dispatchToToDoList(ChangeToDoListFilterAC(todolistID, filterButtonName));
     }
 
     //checkbox ticking func
     const changeTaskStatus = (todolistID: string, isDone: boolean, taskID: string) => {
-        setTasks({...tasks, [todolistID]:[...tasks[todolistID].map(task=>task.id === taskID ? {...task, isDone} : task)]})
+        dispatchToTasks(changeTaskStatusAC(todolistID, taskID, isDone));
+        console.log(todolistID);
     }
 
     //new-list adding function
     const addNewListHandler = (inputValue: string) => {
-        const newID = v1();
-        const newList: ToDoListType = {id: newID, title: inputValue, filter: 'all'}
-        setToDoList([...toDoList, newList]);
-        setTasks({...tasks,[newID]:[]})
+        const action = AddNewToDoListAC(inputValue);
+        dispatchToToDoList(action);
+        dispatchToTasks(action);
     }
 
     //remove list func
     const removeList = (todolistID: string) => {
-        setToDoList([...toDoList.filter(list=>list.id !== todolistID)]);
-        delete (tasks[todolistID]);
+        const action = RemoveToDoListAC(todolistID);
+        dispatchToToDoList(action);
+        dispatchToTasks(action);
     }
 
     //task title updating func
     const updateTaskTitle = (todolistID: string,taskID: string, newTitle: string) => {
-        setTasks({...tasks, [todolistID]:[...tasks[todolistID].map(task=>task.id === taskID ? {...task, title: newTitle} : task)]})
+        dispatchToTasks(changeTaskTitleAC(todolistID, taskID, newTitle));
     }
 
     //list title updating func
     const updateListTitle = (todolistID: string, newTitle: string) => {
-        setToDoList([...toDoList].map(list=>list.id === todolistID ? {...list, title: newTitle} : list))
+        dispatchToToDoList(ChangeToDoListTitleAC(newTitle, todolistID))
     }
 
-    return (
+    return(
         <div className="App">
             <ButtonAppBar/>
             <Container maxWidth="md">
                 <Input getInputValue={addNewListHandler}/>
-
                 <Grid container spacing={3} sx={{marginTop: '5px'}}>
                     {toDoList.map(list=>{
                         //task filter conditioning
