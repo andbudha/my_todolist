@@ -5,17 +5,21 @@ import {
     changeTaskTitleAC,
     deleteToDoListAC,
     removeTaskAC,
-    tasksReducer
+    tasksReducer, TaskStateType
 } from "./tasks-reducer";
 
+let todolistID1 = v1();
 
-test('The correct task must be deleted', ()=>{
+let todolistID2 = v1();
 
-    const todolistID1 = v1();
+let startState: TaskStateType;
 
-    const todolistID2 = v1();
+beforeEach(()=>{
+    todolistID1 = v1();
 
-    const startState = {
+    todolistID2 = v1();
+
+    startState = {
         [todolistID1] : [
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
@@ -27,6 +31,10 @@ test('The correct task must be deleted', ()=>{
             {id: v1(), title: "ReactJS-2", isDone: false}
         ]
     };
+
+})
+
+test('The correct task must be deleted', ()=>{
 
     const taskToBeRemoved = startState[todolistID2][0].id;
 
@@ -40,23 +48,6 @@ test('The correct task must be deleted', ()=>{
 
 test('A new task must be added to the first list', ()=>{
 
-    const todolistID1 = v1();
-
-    const todolistID2 = v1();
-
-    const startState = {
-        [todolistID1] : [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false}
-        ],
-        [todolistID2]: [
-            {id: v1(), title: "HTML&CSS-2", isDone: true},
-            {id: v1(), title: "JS-2", isDone: true},
-            {id: v1(), title: "ReactJS-2", isDone: false}
-        ]
-    };
-
     const newTask = 'Unit-Test';
 
     const resultState = tasksReducer(startState, addNewTaskAC(todolistID1, newTask));
@@ -69,23 +60,6 @@ test('A new task must be added to the first list', ()=>{
 
 
 test('The targeted task must change its status', ()=>{
-
-    const todolistID1 = v1();
-
-    const todolistID2 = v1();
-
-    const startState = {
-        [todolistID1] : [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false}
-        ],
-        [todolistID2]: [
-            {id: v1(), title: "HTML&CSS-2", isDone: true},
-            {id: v1(), title: "JS-2", isDone: true},
-            {id: v1(), title: "ReactJS-2", isDone: false}
-        ]
-    };
 
     const taskID = startState[todolistID1][2].id;
     const taskStatus = startState[todolistID1][2].isDone;
@@ -101,23 +75,6 @@ test('The targeted task must change its status', ()=>{
 
 test('The targeted task-title must be changed', ()=>{
 
-    const todolistID1 = v1();
-
-    const todolistID2 = v1();
-
-    const startState = {
-        [todolistID1] : [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false}
-        ],
-        [todolistID2]: [
-            {id: v1(), title: "HTML&CSS-2", isDone: true},
-            {id: v1(), title: "JS-2", isDone: true},
-            {id: v1(), title: "ReactJS-2", isDone: false}
-        ]
-    };
-
     const newTitle = 'Node-JS';
     const taskID = startState[todolistID2][2].id;
 
@@ -131,26 +88,6 @@ test('The targeted task-title must be changed', ()=>{
 
 
 test('The targeted todolist and its tasks must be deleted', ()=>{
-
-    const todolistID1 = v1();
-
-    const todolistID2 = v1();
-
-    const startState = {
-        [todolistID1] : [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false}
-        ],
-        [todolistID2]: [
-            {id: v1(), title: "HTML&CSS-2", isDone: true},
-            {id: v1(), title: "JS-2", isDone: true},
-            {id: v1(), title: "ReactJS-2", isDone: false}
-        ]
-    };
-
-
-
 
     const resultState = tasksReducer(startState, deleteToDoListAC(todolistID2));
 
