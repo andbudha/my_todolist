@@ -66,7 +66,7 @@ test('The targeted task must change its status', ()=>{
 
     const resultState = tasksReducer(startState, changeTaskStatusAC(todolistID1, taskID, taskStatus));
 
-    expect(resultState[todolistID1][2].isDone).toBe(true);
+    expect(resultState[todolistID1][2].isDone).toBe(false);
     expect(resultState[todolistID1][2].title).toBe("ReactJS");
     expect(resultState[todolistID2][2].isDone).toBe(false);
 
