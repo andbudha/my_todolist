@@ -1,7 +1,6 @@
-import React, {useReducer} from 'react';
+import React from 'react';
 import './App.css';
 import {Todolist} from "./components/Todolist/Todolist";
-import {v1} from "uuid";
 import {Input} from "./components/Input/Input";
 import ButtonAppBar from "./components/AppBar/ButtonAppBar";
 import Container from '@mui/material/Container';
@@ -10,9 +9,16 @@ import Paper from '@mui/material/Paper';
 import {
     AddNewToDoListAC,
     ChangeToDoListFilterAC, ChangeToDoListTitleAC, RemoveToDoListAC,
-    todolistReducer
 } from "./state/todolist_reducer";
-import {addNewTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/tasks-reducer";
+import {
+    addNewTaskAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC,
+    TaskStateType
+} from "./state/tasks-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "./store/store";
 
 
 export type TaskFilterType = 'all' | 'active' | 'completed';
@@ -25,74 +31,52 @@ export type ToDoListType = {
 
 function AppPlusRedux() {
 
-    let todolistID1 = v1();
-    let todolistID2 = v1();
+    const toDoLists = useSelector<AppRootStateType, ToDoListType[]>(state => state.todolists);
 
+    const tasks = useSelector<AppRootStateType, TaskStateType>(state => state.tasks);
 
-    let[toDoList, dispatchToToDoList]=useReducer(todolistReducer,[
-        {id: todolistID1, title: 'What to learn', filter: 'all'},
-        {id: todolistID2, title: 'What to buy', filter: 'all'}
-    ]);
-
-
-
-    let [tasks, dispatchToTasks] = useReducer(tasksReducer,{
-        [todolistID1] : [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false}
-        ],
-        [todolistID2] : [
-            {id: v1(), title: "HTML&CSS-2", isDone: true},
-            {id: v1(), title: "JS-2", isDone: true},
-            {id: v1(), title: "ReactJS-2", isDone: false}
-        ]
-    });
+    const dispatch = useDispatch();
 
 
     //task removing func
     const removeTask = (todolistID: string,taskID: string) => {
-        dispatchToTasks(removeTaskAC(todolistID, taskID));
+        dispatch(removeTaskAC(todolistID, taskID));
     }
 
     //task adding func
     const addTask = (todolistID: string, inputValue: string) => {
-        dispatchToTasks(addNewTaskAC(todolistID, inputValue));
+        dispatch(addNewTaskAC(todolistID, inputValue));
     }
 
     //task filtering func
     const filterTasks = (todolistID: string, filterButtonName: TaskFilterType) => {
-        dispatchToToDoList(ChangeToDoListFilterAC(todolistID, filterButtonName));
+        dispatch(ChangeToDoListFilterAC(todolistID, filterButtonName));
     }
 
     //checkbox ticking func
     const changeTaskStatus = (todolistID: string, isDone: boolean, taskID: string) => {
-        dispatchToTasks(changeTaskStatusAC(todolistID, taskID, isDone));
+        dispatch(changeTaskStatusAC(todolistID, taskID, isDone));
         console.log(todolistID);
     }
 
     //new-list adding function
     const addNewListHandler = (inputValue: string) => {
-        const action = AddNewToDoListAC(inputValue);
-        dispatchToToDoList(action);
-        dispatchToTasks(action);
+        dispatch(AddNewToDoListAC(inputValue));
     }
 
     //remove list func
     const removeList = (todolistID: string) => {
-        const action = RemoveToDoListAC(todolistID);
-        dispatchToToDoList(action);
-        dispatchToTasks(action);
+        dispatch(RemoveToDoListAC(todolistID));
     }
 
     //task title updating func
     const updateTaskTitle = (todolistID: string,taskID: string, newTitle: string) => {
-        dispatchToTasks(changeTaskTitleAC(todolistID, taskID, newTitle));
+        dispatch(changeTaskTitleAC(todolistID, taskID, newTitle));
     }
 
     //list title updating func
     const updateListTitle = (todolistID: string, newTitle: string) => {
-        dispatchToToDoList(ChangeToDoListTitleAC(newTitle, todolistID))
+        dispatch(ChangeToDoListTitleAC(newTitle, todolistID))
     }
 
     return(
@@ -101,7 +85,7 @@ function AppPlusRedux() {
             <Container maxWidth="md">
                 <Input getInputValue={addNewListHandler}/>
                 <Grid container spacing={3} sx={{marginTop: '5px'}}>
-                    {toDoList.map(list=>{
+                    {toDoLists.map(list=>{
                         //task filter conditioning
                         let filteredTasks = tasks[list.id];
 

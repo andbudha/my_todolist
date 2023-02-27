@@ -23,7 +23,7 @@ export const tasksReducer = (state: TaskStateType = initialState, action: TasksA
                     :state[action.payload.listID]
                     .filter(task=>task.id !== action.payload.taskID)};
         case "ADD-NEW-TASK":
-            const newTask = {id: v1(), title: action.payload.newTaskTitle, isDone: true}
+            const newTask = {id: v1(), title: action.payload.newTaskTitle, isDone: false}
             return {...state, [action.payload.listID]:[newTask,...state[action.payload.listID]]}
         case "CHANGE-TASK-STATUS":
             return {...state, [action.payload.todolistID]

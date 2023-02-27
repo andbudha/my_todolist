@@ -1,6 +1,6 @@
-import {ToDoListType} from "../AppPlusReducer";
+import {ToDoListType} from "../AppPlusRedux";
 import {v1} from "uuid";
-import {TaskFilterType} from "../AppPlusReducer";
+import {TaskFilterType} from "../AppPlusRedux";
 
 
 export type ActionType = RemoveToDoListACType
